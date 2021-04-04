@@ -1,6 +1,6 @@
 FILES = t2_1.net t2_2.net 
 
-all: ngspice.log prep3 sim4
+all: ngspice.log prep3 sim4 sim5
 	$(eval NGSFIGS=$(shell grep _FIG $< | sed 's/_FIG//g' | sed ':a;N;$!ba;s/\n/ /g'))
 	$(eval NGSFIGPS=$(addsuffix .ps, $(NGSFIGS)))
 	$(foreach i, $(NGSFIGPS), ps2pdf $i;)
@@ -19,6 +19,11 @@ prep3: prep3.m
 
 sim4:
 	ngspice -b t2_4.net -o test.log
+	cat test.log >> ngspice.log
+	@rm test.log
+
+sim5:
+	ngspice -b t2_5.net -o test.log
 	cat test.log >> ngspice.log
 	@rm test.log
 
