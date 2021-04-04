@@ -1,0 +1,56 @@
+Trabalho 1 alinea 5
+* título
+
+.options savecurrents
+
+* variables
+.INCLUDE ngspice_data_3.txt
+
+.param f = 1k
+
+
+*Descrição do circuito
+va 0 na 0V ; auxiliar voltage source
+
+vs 1 0 dc 0 ac 1 SIN(0 1)
+
+R1 1 2 {R1}
+R2 2 3 {R2}
+R3 2 5 {R3}
+R4 0 5 {R4}
+R5 5 6 {R5}
+R6 na 7 {R6}
+R7 7 8 {R7}
+
+C 6 8 {C1}
+
+Gb 6 3 2 5 {Kb} ; current source
+Hd 5 8 va {Kd} ; voltage source
+
+*Initial conditions
+.ic v(6)= {V6in}
+.ic v(8)= {V8in}
+
+*control
+.control 
+
+
+*makes plots in color
+set hcopypscolor=0
+set color0=white
+set color1=black
+set color2=red
+set color3=blue
+set color4=violet
+set color5=rgb:3/8/0
+set color6=rgb:4/0/07
+
+ac dec 10 0.1 1MEG
+
+hardcopy trans_alinea5.ps vdb(6,8) vdb(1) vdb(6)
+echo trans_alinea5_FIG
+
+quit
+.endc
+
+.end
