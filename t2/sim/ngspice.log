@@ -1,0 +1,107 @@
+
+Circuit: trabalho 2 alinea 1
+
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+
+
+No. of Data Rows : 1
+********************************************
+Operating point
+********************************************
+op1_TAB
+@c[i] = 0.000000e+00
+@gb[i] = -1.83346e-03
+@r1[i] = 1.833376e-03
+@r2[i] = 1.833459e-03
+@r3[i] = -8.33759e-08
+@r4[i] = -7.99667e-04
+@r5[i] = -1.83346e-03
+@r6[i] = -1.03371e-03
+@r7[i] = -1.03371e-03
+v(1) = 5.073745e+00
+v(2) = 3.202913e+00
+v(3) = -4.71654e-01
+v(5) = 3.203170e+00
+v(6) = 8.761006e+00
+v(7) = 2.133856e+00
+v(8) = 3.211452e+00
+hd#branch = 1.033709e-03
+na = 0.000000e+00
+va#branch = -1.03371e-03
+vs#branch = -1.83338e-03
+op1_END
+
+Circuit: trabalho 2 alinea 2
+
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+
+
+No. of Data Rows : 1
+********************************************
+Operating point
+********************************************
+op2_TAB
+@gb[i] = 0.000000e+00
+@r1[i] = 0.000000e+00
+@r2[i] = 0.000000e+00
+@r3[i] = 0.000000e+00
+@r4[i] = 0.000000e+00
+@r5[i] = -1.83073e-03
+@r6[i] = 0.000000e+00
+@r7[i] = 0.000000e+00
+v(1) = 0.000000e+00
+v(2) = 0.000000e+00
+v(3) = 0.000000e+00
+v(5) = 0.000000e+00
+v(6) = 5.549553e+00
+v(7) = 0.000000e+00
+v(8) = 0.000000e+00
+hd#branch = 1.830727e-03
+na = 0.000000e+00
+va#branch = 0.000000e+00
+vs#branch = 0.000000e+00
+vx#branch = -1.83073e-03
+op2_END
+sim3_VAL
+v(6) = 5.549553e+00
+v(8) = 0.000000e+00
+sim3_VAL
+
+Circuit: trabalho 1 alinea 3
+
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+
+
+No. of Data Rows : 1
+********************************************
+Transient analysis
+********************************************
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+na                                           0
+1                                            0
+2                                  1.82626e-13
+3                                  5.41327e-13
+5                                  1.82601e-13
+6                                      5.54955
+7                                  1.21643e-13
+8                                  1.83073e-13
+hd#branch                           0.00183073
+va#branch                         -5.89278e-17
+vs#branch                          1.78969e-16
+
+
+
+No. of Data Rows : 2008
+
+The file "trans_alinea3.ps" may be printed on a postscript printer.
+trans_alinea3_FIG

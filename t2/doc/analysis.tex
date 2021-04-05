@@ -1,112 +1,122 @@
-\section{Theoretical Analysis}
-\label{sec:analysis}
-
-In this section, the circuit shown in Figure~\ref{fig:circuit} is analysed
-theoretically, first we aproach the circuit using the mesh analysis, and later we analyse the circuit using the nodal analysis.
-
-
-\subsection{Nodal Analysis}
-
-The general point of the node analysis method is to figure out the node voltages of all the nodes in our circuit (in relation to a reference node,
-which we call ground, and whose voltage we set to 0). Having figured this out,
-it's straightforward to determine the branch currents and voltages, thus completely solving the circuit. 
-\par
+\subsection{Step 1: Stationary analysis}    
+For $t < 0$ we have that $v_s = V_s = C^{te}$, and also $i_c = \frac{d}{dt}u_c = 0 $ (the capacitor acts as an open circuit), therefore the circuit is equivalent to the one shown in figure (\ref{fig: step1}).
 
 \begin{figure}[H] \centering
-  \includegraphics[width=0.6\linewidth]{nodal.pdf}
-  \caption{Nodes used in Nodal Analysis}
-  \label{fig:nodal}
-\end{figure}
-
-To do this, we first need to identify and label all the nodes in our system as seen in Figure~\ref{fig:nodal},
- as well as choose the ground node. In our case, we defined the node connected to 
- resistance $R_4$ and to voltage source $V_a$ as ground. The second step consists in determining
-  the voltages of the easy nodes. In our circuit, it is clear to see, for example, that $e_1 = V_a$.
-   To solve the other non-trivial nodes, we proceed to write Kirchhoff's current law for each one of them,
-    which states that the sum of currents going into a node must be 0;
-     or, in other words, that charges may not accumulate in one singular node:
-\begin{equation*}
-    \sum_{i} y_i = 0
-\end{equation*}
-where $y_i$ is a current defined as going \textbf{into} the node.\par
-Using Ohm's Law, which states that $I = U/R$, and assuming we know the values of the resistances
- of the elements in each branch (also noticing that we can write the branch
-  voltages as differences between node voltages), we get a system of equations that
-   allows us to determine each node voltage.
-\par
-Since this method seems to rely upon Ohm's law, it seems to be a fatal problem that we have a dependent voltage source in our circuit,
-$V_c$, for which we \textbf{can't} write ohm's law. To deal with this,
-we create a super-node by lumping together the nodes to which $V_c$ is connected and we write KCL
-for the super-node. To find the missing equation, we simply note that
-$V$(negative terminal of dependent voltage source) + $V_c$ = $V$(positive terminal of dependent voltage source),
-thus getting two equations for our two "problematic" nodes.
-
-We can therefore write the following equations:
-
-\begin{equation*}
-  \mathbf{Node_1} : e_1 = V_a
-  \label{eq:kcl0}
-\end{equation*}
-\begin{equation*}
-  \mathbf{Node_2} : -C_1 \cdot (e_1 - e_2) - C_3 \cdot (e_8 - K_c \cdot C_{6,7} \cdot e_8 - e_2) - C_2 \cdot (e_3 - e_2) = 0
-  \label{eq:kcl1}
-\end{equation*}
-\begin{equation*}
-  \mathbf{Node_3} : C_2 \cdot (e_3 - e_2) - K_b \cdot (e_2 - e_8 + K_c \cdot C_{6,7} \cdot e_8) = 0
-  \label{eq:kcl2}
-\end{equation*}
-\begin{equation*}
-  \mathbf{Node_6} : C_5 \cdot (e_6 - e_8 + K_c \cdot C_{6,7} \cdot e_8) + K_b \cdot (e_2 - e_8 + K_c \cdot C_{6,7} \cdot e_8) - I_d = 0
-  \label{eq:kcl3}
-\end{equation*}
-\begin{equation*}
-    \mathbf{SuperNode} : -C_4 \cdot (-e_8 + K_c \cdot C_{6,7} \cdot e_8) + C_3 \cdot (e_8 - k_c \cdot C_{6,7} \cdot e_8 - e_2) - C_5 (e_6 - e_8 + k_c \cdot C_{6,7} \cdot e_8) + e_8 \cdot C_{6,7} + I_d = 0
-\end{equation*}
-
-
-In determining these equations, we have used, as for the the mesh analysis, the relations:
-
-
-\begin{equation*}
-    I_b = K_b \times V_b
-\end{equation*}
-\begin{equation*}
-    V_b = (e_2 - e_8 + V_c)
-\end{equation*}
-\begin{equation*}
-    V_c = K_c \times I_c
-\end{equation*}
-\begin{equation*}
-    I_c = -e_8 \times C_{6,7}
-\end{equation*}
-
-In matrix form, the system of looks like this:
-\vspace{10mm}
-
-
+  \includegraphics[width=0.6\linewidth]{circuitStep1.pdf}
+  \caption{Circuit used to determine all the branch variables for $t < 0$.}
+  \label{fig: step1}
+\end{figure}    	
+Using nodal analysis we get the following system of equations:
+    	
 $\begin{bmatrix}
-C_1 + C_2 + C_3  &  -C_2                 &  0        &  -C_3(1-K_c \cdot C_{6,7}) \\
--C_2 - K_b        &  C_2      &  0           &  K_b \cdot (1 - K_c \cdot C_{6,7}) \\
-K_b             & 0                     &  C_5
-&  -(C_5 + K_b)(1 - K_c C_{6,7}) \\
--C_3 & 0 & -C_5 & (1-K_c \cdot C_{6,7})(C_4 + C_3 + C_5) + C_{6,7}
+1  &  0 &  0 &  0 & 0 & 0 & 0 \\
+C_1 & -C_1-C_2-C_3 & C_2 & C_3 & 0 & 0 & 0\\
+0 & C_2+K_b & -C_2 & -K_b & 0 & 0 & 0\\
+0 & -K_b & 0 & C_5+K_b & -C_5 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & -C_6-C_7 & C_7\\
+0 & 0 & 0 & 1 & 0 & K_d C_6 & -1\\
+0 & C_3 & 0 & -C_3-C_4-C_5 & C_5 & C_7 & -C_7\\ 
 \end{bmatrix}
 \begin{bmatrix}
-e_1 \\
-e_2 \\
-e_3 \\
-e_4
+e_1\\
+e_2\\
+e_3\\
+e_5\\
+e_6\\
+e_8\\
+e_7\\
 \end{bmatrix}
 =
 \begin{bmatrix}
-V_a \cdot C_1 \\
-0 \\
-I_d \\
--I_d
+V_s\\
+0\\
+0\\
+0\\
+0\\
+0\\
+0\\
 \end{bmatrix}$
 
-\vspace{10mm}
 
-Solving the system with octave and the previous data we reach the following results:
- Table with results created with octave
- \input{../mat/ex1_octave.tex}
+
+\subsection{Step 2: Determining the equivalent resistance.}
+To get the equation for the capacitor voltage, $v_c$, we need to determine the time constant $\tau = R_{eq}C$, where $C$ is the capacitance and $R_{eq}$ is the resistance measured from the terminals of the capacitor, $v_6, v_8$, however due to the circuit geometry and the presence of dependent sources we can't simplify the circuit directly. To calculate $R_{eq}$, we cancel out the internal sources in the circuit ($V_s$), and apply a known voltage, $V_x$, in the terminals $v_6,\, v_8$, then we simply calculate the ratio between  the voltage from the source and the current that passes through it, $I_x$. To calculate $I_x$ we, again, perform the nodal analysis, but on the modified circuit in figure (\ref{fig: step 2}). Note that $V_x = v_6-v_8$, where $v_6$ and $v_8$ were the nodes voltages obtained in step 1. 
+
+\begin{figure}[H] \centering
+  \includegraphics[width=0.6\linewidth]{circuitStep2.pdf}
+  \caption{Circuit configuration for measuring the equivalent resistance, $R_{eq}$, from terminals $6$ and $8$.}
+  \label{fig: step 2}
+\end{figure}
+
+Using nodal analysis we get the following system of equations:
+    	
+$\begin{bmatrix}
+0  &  0 &  0 &  0 & 1 & 0\\
+C_6 K_d & 0 & 0 & -1 & 0 & -C_6 K_d\\
+-C_1-C_4-C_6 & C_1 & 0 & C_4 & 0 & C_6\\
+0 & C_2+ K_b & -C_2 & -K_b & 0 & 0\\
+C_1 & -C_1-C_2-C_3 & C2 & C3 & 0 & 0\\
+C_6 & 0 & 0 & 0 & 0 & -C_6-C_7\\
+\end{bmatrix}
+\begin{bmatrix}
+e_1\\
+e_2\\
+e_3\\
+e_5\\
+e_6\\
+e_7\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+V_x\\
+0\\
+0\\
+0\\
+0\\
+0\\
+\end{bmatrix}$
+
+The current $I_x$ is then given by the equation:
+
+\begin{equation}
+    I_x = C_5(e_5-e_4) 
+\end{equation}
+
+\subsection{Step 3: Natural solution}
+The natural solution for a capacitor is given by the following equation:
+
+\begin{equation}
+    v_{c_n}(t) = V e^{-\frac{1}{RC}t}
+\end{equation}
+where $V$ is a constant and $R$ is the resistance measured from the terminals of the capacitor.
+To determine $V$, we note that the voltage of a capacitor must always be continuous (or else there would be an infinite power in the capacitor in the instance of the discontinuity), therefore if $v_{6_n}(0^-) = v_6_n(0^+)$ and  $v_{6_n}(0^-) = V_x$, then $V = V_x$. 
+Therefore the natural solution for the capacitor is given by the equation (\ref{}).
+\begin{equation}
+    v_{6_n}(t) = V_x e^{-\frac{1}{RC}t}, 
+\end{equation}
+for $t \geq 0$.
+
+
+\subsection{Frequency response}
+To determine the frequency response of the circuit we have to simplify it, this can be achieved by determining the Thevening equivalent circuit from the terminals $v_6$ and $v_8$, as shown in figure (\ref{Cicuito6.pdf}).
+
+\begin{figure}[H] \centering
+  \includegraphics[width=0.6\linewidth]{circuitStep6.pdf}
+  \caption{Determining the transfer function, $\bar{T}(w)$, by resorting to circuit simplification, using the Thevenin equivalent( seen from the terminals of the capacitor).}
+  \label{fig:mesh}
+\end{figure}
+
+
+
+The equivalent impedance $Z_{Th}$ has already been determined, its value is equal to the equivalent resistance $R_{eq}$, viewed from the terminals 6 and 8. To determine the value for $U_{Th}$ we use the same system as obtained in step 1 of the theoretical analysis, but with $v_s$, set as a variable instead of a constant. Solving the the system, we get the voltages $v_6$ and $v_8$ as a function of $v_s$, and as expected, the voltage drop $v_6 - v_8$ is proportional to $v_s$.
+\\ With the circuit simplified (see figure (\ref{CircuitResp.pdf})), we can relate the source phasor $\bar{U_s}$ with output phasor $\bar{U_c}$, with the folowing equations:
+
+\begin{equation}
+    \bar{I_c} = \frac{\alpha \bar{U_s}}{R_{Th}+ \frac{1}{jwC}} \iff \bar{U_c} = \frac{\frac{1}{jwC}}{R_{Th} +  \frac{1}{jwC}} \alpha \bar{U_s}, 
+\end{equation}
+where $\alpha \bar{U_s} = \bar{U}_{Th}$.
+Therefore we get:
+
+\begin{equation}\label{eq: freqResp}
+\bar{T}(w) = \frac{\bar{U}_s}{\bar{U}_c} = \frac{\alpha}{j \tau \omega + 1} \end{equation}
+, where $\tau = R_{Th}C$.
