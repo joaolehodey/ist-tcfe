@@ -76,7 +76,7 @@ set color6=rgb:4/0/0
 
 ****************************************
 * analise no tempo .tran tstep tstop <tstart <tmax>> <uic>
-tran 2.4e-4 0.2
+tran 2.3e-4 0.2
 
 *plot grafico
 plot  v(2)-v(3) v(1)
