@@ -1,0 +1,109 @@
+*
+*AC to DC converter
+*
+
+
+.options NODE
+
+*variables 
+.param C = 20u
+.param R = 20k  
+.param N = 4
+
+*Equivalent transformer circuit 
+* input voltage source
+*vS 1 0 0 sin(0 230/n 50 0   0 0)
+vS 1 0 0 sin(0 13.5 50 0 0 0) ; 
+
+
+*bridge rectifier 
+
+Dp1 1 2 Default
+Dp2 3 1 Default
+Dp3 0 2 Default
+Dp4 3 0 Default
+
+
+
+
+
+*Filter capacitor(CR >> T/2, T = 0.02) 
+Ci 2 3 {C} ; mudei aqui (original 10u)
+
+*Load resistance
+RL 2 3 {R}
+
+
+
+*shunt resistance
+*RS 2 15 15
+
+
+
+*Limiter diodes 
+
+* Dp5 15 4 Default
+* Dp6 4 5 Default
+* Dp7 5 6 Default
+* Dp8 6 7 Default
+
+* Dp9 7 8 Default
+* Dp10 8 9 Default
+* Dp11 9 10 Default
+* Dp12 10 11 Default
+
+* Dp13 11 12 Default
+* Dp14 12 13 Default
+* Dp15 13 14 Default
+* Dp16 14 3 Default
+
+
+.model Default D
+.op
+.end
+
+.control
+
+makes plots in color
+set hcopypscolor=0
+set color0=white
+set color1=black
+set color2=red
+set color3=blue
+set color4=violet
+set color5=rgb:3/8/0
+set color6=rgb:4/0/0
+
+****************************************
+* analise no tempo .tran tstep tstop <tstart <tmax>> <uic>
+tran 2.4e-4 0.2
+
+*plot grafico
+plot  v(2)-v(3) v(1)
+
+* calculo e impressao ripple e avg
+
+let av = v(2)-v(3)
+
+meas tran average AVG av from=0.1 to=1.3
+
+let av = v(2)-v(3)
+meas tran ripple PP av from=0.1 to=0.2
+
+echo op_TAB
+print ripple
+print average
+echo op_END
+
+
+****************************************
+hardcopy graph1.ps v(2, 3) v(1)
+echo graph1_FIG
+
+hardcopy graph2.ps v(2, 3)-12
+echo graph2_FIG
+
+quit
+.endc
+
+.end
