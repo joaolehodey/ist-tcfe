@@ -1,4 +1,44 @@
 \section{Theoretical Analysis}
 \label{sec:analysis}
 
+\subsection{First part}
+The theoretical analysis is split into three parts. In the first part we compute the operating point using the Ebers-Moll model for the transistor. Taking into account the fact that capacitors act as an open circuit on the operating point, and using Thevenin's theorem to simplify the circuit, we get the following equations:
+\begin{equation*}
+    R_{th} = \frac{1}{\frac{1}{R_{1}} + \frac{1}{R_{2}}}
+\end{equation*}
+\begin{equation*}
+    V_{th} = \frac{R_{2}V_{CC}}{R_{1}+R_{2}}
+\end{equation*}
+\begin{equation*}
+    I_{B1} = \frac{V_{th} - V_{BEON}}{R_{th} + (1+\beta_{FN})R_{e}}
+\end{equation*}
+\begin{equation*}
+    I_{C1} = \beta_{FN} I_{B1}
+\end{equation*}
+\begin{equation*}
+    I_{E1} = (1+\beta_{FN})I_{B1}
+\end{equation*}
+\begin{equation*}
+    V_{E1} = R_{e}*I_{E1}
+\end{equation*}
+\begin{equation*}
+    V_{O1} = V_{CC}-R_{1}I_{C1}
+\end{equation*}
+\begin{equation*}
+    V_{CE} = V_{O1}-V_{E1}
+\end{equation*}
+being that $I_{B1}$ is the current going \textbf{into} the base of the first transitor; $I_{E1}$ is the current going \textbf{out} of the emitter of the first transistor; $V_{O1}$ is the voltage at the 'coll' node; $V_CE$ is the potential difference between the collector and emitter of the first transistor. 
+
+Using the following values:
+
 \input{../mat/values.tex}
+
+We get:
+
+\input{../mat/octave1.tex}
+
+
+\subsection{Second part}
+In this part we compute the gain, input and output impedances separately for the 2 stages.
+The model used for the transistors here is the same.
+
