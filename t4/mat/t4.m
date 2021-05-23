@@ -141,3 +141,22 @@ fprintf(fid, "  \\end{tabular} \n \\caption{Values used as parameters for the ci
 
 
 fclose (fid);
+
+%%%%%%%%%%%%%%%%%%%% VALLUES FOR USE IN NGSPICE%%%%5
+
+fid = fopen ('../sim/ngspice_data.txt', "w+");
+
+
+% fprintf(fid, ".param VT = %.11f\n", VT)
+% fprintf(fid, ".param BFN = %.11f\n", BFN)
+% fprintf(fid, ".param VAFN = %.11f\n", VAFN)
+fprintf(fid, ".param RE1 = %.11f\n", RE1)
+fprintf(fid, ".param RC1 = %.11f\n", RC1)
+fprintf(fid, ".param RB1 = %.11f\n", RB1)
+fprintf(fid, ".param RB2 = %.11f\n", RB2)
+% fprintf(fid, ".param VBEON = %.11f\n", VBEON)
+fprintf(fid, ".param VCC = %.11f\n", VCC)
+fprintf(fid, ".param RS = %.11f\n", RS)
+
+
+fclose (fid);

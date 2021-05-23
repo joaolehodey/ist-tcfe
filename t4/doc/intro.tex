@@ -2,8 +2,22 @@
 \label{sec:introduction}
 
 % state the learning objective 
-The objective of this laboratory assignment is to study a circuit containing
-various resistors, two voltage sources and two current sources. The circuit can be seen in Figure~\ref{fig:circuit}.
+In this laboratory assignment we seek to build an audio amplifier circuit
+, with the goal of maximizing the merit figure, $M$, given by:
+\begin{equation*}
+        M = \frac{voltageGain * bandwidth}{cost * lowerCutoffFreq}
+\end{equation*}
+being that the voltage gain is given by the quotient between the output voltage and 
+the input voltage; the bandwidth is the magnitude of the interval of frequencies
+ for which the circuit functions; and the lower cut off frequency is given 
+ by the lowest frequency for which the circuit functions. The cost 
+ equals the sum of the cost of each individual component.
+\par The circuit consists only of resistors, 
+voltage sources (AC as well as DC), capacitors 
+and bipolar junction transistors (more specifically one 
+PNP transistor and one NPN transistor)
+
+The circuit used was the following:
 
 \begin{figure}[H] \centering
 \includegraphics[width=0.6\linewidth]{circuit.pdf}
