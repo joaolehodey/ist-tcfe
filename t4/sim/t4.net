@@ -37,10 +37,19 @@ Co emit2 out 1u
 * load
 RL out 0 8
 
+
 .op
 .end
 
+
+
 .control
+op
+
+echo  "op_TAB"
+print all
+echo  "op_END"
+
 
 makes plots in color
 set hcopypscolor=0
@@ -75,6 +84,7 @@ echo vo2f_FIG
 
 *input impedance in kohm
 *print all
+
 
 plot abs(v(in2)[40]/vin#branch[40]/(-1000))
 print v(in2)[40]/vin#branch[40]/(-1000)

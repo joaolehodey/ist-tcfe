@@ -41,4 +41,63 @@ We get:
 \subsection{Second part}
 In this part we compute the gain, input and output impedances separately for the 2 stages.
 The model used for the transistors here is the same.
-
+\begin{equation*}
+   g_{m1} = I_{C1}/V_T
+\end{equation*}
+\begin{equation*}
+    r_{pi1} = \beta{FN}/g_{m1}
+\end{equation*}
+\begin{equation*}
+    r_{o1} = V_{AFN}/I_{C1}
+\end{equation*}
+Using this, we can calculate the voltage gain 
+\begin{equation*}
+    A_{V1} = \frac{g_{m1} Z_{O1} Z_{I1}}{Z_{I1}+R_{S}}
+\end{equation*}
+\begin{equation*}
+    R_{E1} = 100
+\end{equation*}
+For calculating the entrance impendance of transistor 1, we've come to the following equations
+\begin{equation*}
+    Z_{I1} = r_{pi} || R_{2} || R_{1}
+\end{equation*}
+\begin{equation*}
+    Z_{I1} = \frac{R_{B1} R_{B2} r_{pi1}}{R_{B1} R_{B2}+ R_{B1} r_{pi1}+ R_{B2} r_{pi1}}
+\end{equation*}
+For calculating the exit impedance
+\begin{equation*}
+    Z_{O1} = r_{01} || R_{C1}
+\end{equation*}
+Repeating the same calculations, but for transistor 2, we get that
+\begin{equation*}
+    g_{m2} = I_{C2}/V_{T}
+\end{equation*}
+\begin{equation*}
+    g_{o2} = I_{C2}/V_{AFP}
+\end{equation*}
+\begin{equation*}
+    g_{pi2} = g_{m2}/\beta_{FP}
+\end{equation*}
+\begin{equation*}
+    g_{e2} = 1/R_{E2}
+\end{equation*}
+For calculating the entrance impendance of transistor 2, we've come to the following equation
+\begin{equation*}
+    A_{V2} = \frac{g_{m2}}{g_{m2}+g_{pi2}+g_{o2}+g_{e2}}
+\end{equation*}
+for calculating the exit impendance of transistor 2, we get 
+\begin{equation*}
+    Z_{O2} = 1/(g_{m2}+g_{pi2}+g_{o2}+g_{e2})
+\end{equation*}
+The following ratio should be equal to one. if that's the case, then we've confirmed there's a small loss of signal between the transistors
+\begin{equation*}
+    b = ZI2/(ZI2+ ZO1)
+\end{equation*}
+Similarly, the following ratio should be one if there's a small loss of signal between Vin and the first transistor 
+\begin{equation*}
+    a = Z_{I1}/(Z_{I1}+R_{S})
+\end{equation*}
+Finally, to ensure that there's no signal loss between the speaker and the second transistor, the following ratio should be approximately one
+\begin{equation*}
+    c = R_{L}/(R_{L}+Z_{O2})
+\end{equation*}
