@@ -1,15 +1,49 @@
 %gain stage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                                     %
+%  CAREFULL -> if testing separately make sure file data.txt exists in main directory %
+%                                                                                     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-VT=25e-3
-BFN=178.7
-VAFN=69.7
-RE1=100
-RC1=1000
-RB1=80000
-RB2=20000
-VBEON=0.7
-VCC=12
-RS=100
+#------------------ Getting values from data.txt------------------------ WORKS
+
+this_file_path = fileparts(mfilename('fullpath'));
+data_path = [this_file_path '/../valores.txt'];
+fid = fopen (data_path);
+
+
+lines = strsplit(fileread(data_path), '\n');
+
+fclose(fid);
+
+
+vector = [];
+for n = 1:length(lines) 
+    if strfind(lines{n}, '=')
+        val=strsplit(lines{n}, '=')(2);
+        vector = [vector ; val];
+    endif
+end 
+
+vector;
+
+VT = str2double(vector(1)) 
+BFN = str2double(vector(2)) 
+VAFN = str2double(vector(3)) 
+RE1 = str2double(vector(4))      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+RC1 = str2double(vector(5))      %  values from datagen
+RB1 = str2double(vector(6))      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+RB2 = str2double(vector(7)) 
+VBEON = str2double(vector(8)) 
+VCC = str2double(vector(9)) 
+RS = str2double(vector(10)) 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                %Actual analysis
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 RB=1/(1/RB1+1/RB2)
 VEQ=RB2/(RB1+RB2)*VCC
@@ -74,3 +108,36 @@ AV = (gB+gm2/gpi2*gB)/(gB+ge2+go2+gm2/gpi2*gB)*AV1
 AV_DB = 20*log10(abs(AV))
 ZI=ZI1
 ZO=1/(go2+gm2/gpi2*gB+ge2+gB)
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIRST VALUES TABEL PRINT TO REPORT
+
+filename = "values.tex";
+fid = fopen (filename, "w+");
+
+fprintf(fid, "\\begin{table}[H] \n \\centering \n \\begin{tabular}{ c c } \n")
+fprintf(fid, "\\hline\n")
+fprintf(fid, "VT & %f \\\\ \n ", VT)
+fprintf(fid, "\\hline\n")
+fprintf(fid, "BFN & %f \\\\ \n ", BFN)
+fprintf(fid, "\\hline\n")
+fprintf(fid, "VAFN & %f \\\\ \n ", VAFN)
+fprintf(fid, "\\hline\n")
+fprintf(fid, "RE1 & %f \\\\ \n ", RE1)
+fprintf(fid, "\\hline\n")
+fprintf(fid, "RC1 & %f \\\\ \n ", RC1)
+fprintf(fid, "\\hline\n")
+fprintf(fid, "RB1 & %f \\\\ \n ", RB1)
+fprintf(fid, "\\hline\n")
+fprintf(fid, "RB2 & %f \\\\ \n ", RB2)
+fprintf(fid, "\\hline\n")
+fprintf(fid, "VBEON & %f \\\\ \n ", VBEON)
+fprintf(fid, "\\hline\n")
+fprintf(fid, "VCC & %f \\\\ \n ", VCC)
+fprintf(fid, "\\hline\n")
+fprintf(fid, "RS & %f \\\\ \n ", RS)
+fprintf(fid, "\\hline\n")
+fprintf(fid, "  \\end{tabular} \n \\caption{Values used as parameters for the circuit studied.} \n \\label{tab:ex1} \n \\end{table} \n ")
+
+
+fclose (fid);
