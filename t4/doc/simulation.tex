@@ -1,33 +1,51 @@
 \section{Simulation Analysis}
 \label{sec:simulation}
 
+The Operating point analysis is the following:
+
 \begin{table}[H]
   \centering
   \begin{tabular}{|l|r|}
     \hline    
-    {\bf Name} & {\bf Value [A or V]} \\ \hline
+    {\bf Name} & {\bf Value } \\ \hline
     \input{../sim/op_tab}
   \end{tabular}
   \caption{Operating point.}
   \label{tab:op}
 \end{table}
 
+The impedances measured are the following:
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|l|r|}
+    \hline    
+    {\bf Name} & {\bf Value } \\ \hline
+    \input{../sim/acsim_tab}
+  \end{tabular}
+  \caption{Impedances}
+  \label{tab:op}
+\end{table}
+
+The graphs are the following:
+
+Time analysis:
 \begin{figure}[H] \centering
   \includegraphics[width=0.6\linewidth]{vo1.pdf}
-  \caption{---------}
+  \caption{Time analysis}
   \label{fig:acm}
   \end{figure}
 
-
+Frequency analysis:
   \begin{figure}[H] \centering
     \includegraphics[width=0.6\linewidth]{vo1f.pdf}
-    \caption{------------}
+    \caption{Frequency analysis}
     \label{fig:acm}
     \end{figure}
 
 
     \begin{figure}[H] \centering
       \includegraphics[width=0.6\linewidth]{vo2f.pdf}
-      \caption{--------------}
+      \caption{Frequency analysis}
       \label{fig:acm}
       \end{figure}
