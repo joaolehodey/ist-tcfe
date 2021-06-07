@@ -1,4 +1,9 @@
-%gain stage
+
+close all
+clear all
+
+pkg load symbolic;
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                                     %
 %  CAREFULL -> if testing separately make sure file data.txt exists in main directory %
@@ -8,7 +13,7 @@
 #------------------ Getting values from data.txt------------------------ WORKS
 
 this_file_path = fileparts(mfilename('fullpath'));
-data_path = [this_file_path '/../valores.txt'];
+data_path = [this_file_path '/data.txt'];
 fid = fopen (data_path);
 
 
@@ -27,194 +32,116 @@ end
 
 vector;
 
-VT = str2double(vector(1)) ;
-BFN = str2double(vector(2)) ;
-VAFN = str2double(vector(3)) ;
-RE1 = str2double(vector(4))  ;    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-RC1 = str2double(vector(5)) ;     %  values from datagen
-RB1 = str2double(vector(6)) ;     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-RB2 = str2double(vector(7)) ;
-VBEON = str2double(vector(8)) ;
-VCC = str2double(vector(9)) ;
-RS = str2double(vector(10)) ;
-RL = 8;
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                %Actual analysis
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-RB = 1/(1/RB1+1/RB2);
-VEQ = RB2/(RB1+RB2)*VCC;
-
-% Colocar tudo isto 
-IB1 = (VEQ-VBEON)/(RB+(1+BFN)*RE1)
-IC1 = BFN*IB1
-IE1 = (1+BFN)*IB1
-VE1 = RE1*IE1
-VO1 = VCC-RC1*IC1
-VCE = VO1-VE1
-
-% isto também 
-gm1 = IC1/VT
-rpi1 = BFN/gm1
-ro1 = VAFN/IC1
+R1 = str2double(vector(1)) 
+R2 = str2double(vector(2)) 
+R3 = str2double(vector(3)) 
+R4 = str2double(vector(4))      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+C3 = str2double(vector(5))      %  values from datagen
+C4 = str2double(vector(6))      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
 
 
 
-RE1 = 100;
 
-% impedancia de entrada do transistor 1 : ZI1 = rpi || R2 || R1
+% Cost of the circuit
 
-ZI1 = RB1*RB2*rpi1/(RB1*RB2+ RB1*rpi1+ RB2*rpi1) 
+C_R1 = R1*1/1000
+C_R2 = 2e3
+C_R3 = 100e3
+C_R4 = 1e3
 
-% Impedância de saída 1: Zo1 = r01||RC1
-ZO1 = ro1*RC1/(ro1+RC1)
+C_C3 = 3*220e-9
+C_C4 = 3e-6
 
-% ganho de tensão 1 em módulo
-AV1 = gm1*ZO1*(ZI1/(ZI1+RS))
-
-% ouput stage
-BFP = 227.3;
-VAFP = 37.2;
-RE2 = 100;
-VEBON = 0.7;
-
-% Colocar tudo isto 
-VI2 = VO1
-IE2 = (VCC-VEBON-VI2)/RE2
-IC2 = BFP/(BFP+1)*IE2
-VO2 = VCC - RE2*IE2
-
-% isto também 
-gm2 = IC2/VT
-go2 = IC2/VAFP
-gpi2 = gm2/BFP
-ge2 = 1/RE2
-
-% ganho de tensão 2 em módulo
-AV2 = gm2/(gm2+gpi2+go2+ge2)
-
-% impedancia de entrada do tansistor 2
-
-ZI2 = (gm2+gpi2+go2+ge2)/gpi2/(gpi2+go2+ge2)
-
-% Impedância de saída 2
-ZO2 = 1/(gm2+gpi2+go2+ge2)
-
-% Este rácio tem que ser aproximadamente 1
-% Confirmação da baixa perda de sinal entre os trasistores:
-b = ZI2/(ZI2+ ZO1)
-
-% Confirmação que n há perda de sinal entre a fonte Vin e o primeiro transistor
-% deve ser aproximadamente 1
-a = ZI1/(ZI1+RS)
-
-% Confirmação que n há perda de sinal entre o egundo transistor e o altifalante
-% deve ser aproximadamente 1
-c = RL/(RL+ZO2)
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% OP
-
-filename = "octave1.tex";
-fid = fopen (filename, "w+");
-
-fprintf(fid, "\\begin{table}[H] \n \\centering \n \\begin{tabular}{ c c } \n")
-fprintf(fid, "\\hline\n")
-fprintf(fid, "IB1 & %f \\\\ \n ", IB1)
-fprintf(fid, "\\hline\n")
-fprintf(fid, "IC1 & %f \\\\ \n ", IC1)
-fprintf(fid, "\\hline\n")
-fprintf(fid, "IE1 & %f \\\\ \n ", IE1)
-fprintf(fid, "\\hline\n")
-fprintf(fid, "VE1 & %f \\\\ \n ", VE1)
-fprintf(fid, "\\hline\n")
-fprintf(fid, "VO1 & %f \\\\ \n ", VO1)
-fprintf(fid, "\\hline\n")
-fprintf(fid, "VCE & %f \\\\ \n ", VCE)
-fprintf(fid, "\\hline\n")
-fprintf(fid, "gm1 & %f \\\\ \n ", gm1)
-fprintf(fid, "\\hline\n")
-fprintf(fid, "rpi1 & %f \\\\ \n ", rpi1)
-fprintf(fid, "\\hline\n")
-fprintf(fid, "ro1 & %f \\\\ \n ", ro1)
-fprintf(fid, "\\hline\n")
-fprintf(fid, "ZI1 & %f \\\\ \n ", ZI1)
-fprintf(fid, "\\hline\n")
-fprintf(fid, "ZO1 & %f \\\\ \n ", ZO1)
-fprintf(fid, "\\hline\n")
-fprintf(fid, "AV1 & %f \\\\ \n ", AV1)
-fprintf(fid, "\\hline\n")
-fprintf(fid, "VI2 & %f \\\\ \n ", VI2)
-fprintf(fid, "\\hline\n")
-fprintf(fid, "IE2 & %f \\\\ \n ", IE2)
-fprintf(fid, "\\hline\n")
-fprintf(fid, "IC2 & %f \\\\ \n ", IC2)
-fprintf(fid, "\\hline\n")
-fprintf(fid, "VO2 & %f \\\\ \n ", VO2)
-fprintf(fid, "\\hline\n")
-fprintf(fid, "gm2 & %f \\\\ \n ", gm2)
-fprintf(fid, "\\hline\n")
-fprintf(fid, "go2 & %f \\\\ \n ", go2)
-fprintf(fid, "\\hline\n")
-fprintf(fid, "gpi2 & %f \\\\ \n ", gpi2)
-fprintf(fid, "\\hline\n")
-fprintf(fid, "ge2 & %f \\\\ \n ", ge2)
-fprintf(fid, "\\hline\n")
-fprintf(fid, "AV2 & %f \\\\ \n ", AV2)
-fprintf(fid, "\\hline\n")
-fprintf(fid, "ZI2 & %f \\\\ \n ", ZI2)
-fprintf(fid, "\\hline\n")
-fprintf(fid, "ZO2 & %f \\\\ \n ", ZO2)
-fprintf(fid, "\\hline\n")
-fprintf(fid, "a & %f \\\\ \n ", a)
-fprintf(fid, "\\hline\n")
-fprintf(fid, "b & %f \\\\ \n ", b)
-fprintf(fid, "\\hline\n")
-fprintf(fid, "c & %f \\\\ \n ", c)
-fprintf(fid, "\\hline\n")
-fprintf(fid, "  \\end{tabular} \n \\caption{Operating point theoretically} \n \\label{tab:ex1} \n \\end{table} \n ")
+Cost_R = (C_R1+C_R2+C_R3+C_R4)*1e-3
+Cost_C =  (C_C3+C_C4)*1e+6
 
 
-fclose (fid);
+%--------------Cost of ampop---------------------------------
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIRST VALUES TABEL PRINT TO REPORT
-
-filename = "values.tex";
-fid = fopen (filename, "w+");
-
-fprintf(fid, "\\begin{table}[H] \n \\centering \n \\begin{tabular}{ c c } \n")
-fprintf(fid, "\\hline\n")
-fprintf(fid, "RE1 & %f \\\\ \n ", RE1)
-fprintf(fid, "\\hline\n")
-fprintf(fid, "RC1 & %f \\\\ \n ", RC1)
-fprintf(fid, "\\hline\n")
-fprintf(fid, "RB1 & %f \\\\ \n ", RB1)
-fprintf(fid, "\\hline\n")
-fprintf(fid, "RB2 & %f \\\\ \n ", RB2)
-fprintf(fid, "\\hline\n")
-fprintf(fid, "VCC & %f \\\\ \n ", VCC)
-fprintf(fid, "\\hline\n")
-fprintf(fid, "RS & %f \\\\ \n ", RS)
-fprintf(fid, "\\hline\n")
-fprintf(fid, "  \\end{tabular} \n \\caption{Values used as parameters for the circuit studied.} \n \\label{tab:ex1} \n \\end{table} \n ")
+C_Capacitors = (8.661E-12 + 30.00E-12)*1e6
 
 
-fclose (fid);
+N_Diodes = 4 
+C_Diodes = 0.1*N_Diodes
 
-%%%%%%%%%%%%%%%%%%%% VALLUES FOR USE IN NGSPICE%%%%5
+
+N_Transistors = 2
+C_Transistor = 0.1*N_Transistors
+
+
+C_R =  (100.0E3 + 2*5.305E3 + 2*1.836E3 + 13.19E6 + 50+ 100 + 16e3)*1e-3
+ 
+C_Ampop = (C_R)+(C_Capacitors)+(C_Transistor)+(C_Diodes)   
+
+%-------------------------------------------------------------
+ 
+Total_Cost = Cost_R + Cost_C + C_Ampop
+
+
+% Merit figure
+
+% Central Voltage Deviation 
+% Maximum Gain_frequency
+F_Gmax = 9.698412e+01
+
+% Gain at F_H and at F_L
+G_H_L = 9.698412e+01/sqrt(2) 
+
+% High cut-off frequency
+F_H =  2.32965e+03
+
+% Lower cut-off frequency
+F_L =   2.18112e+02
+
+% Central frequency(geometric average)
+Central_freq = sqrt(F_H*F_L)
+
+Diff_central_freq = abs(Central_freq-1000)
+
+
+% Voltage gain deviation
+Gain_1K = 39.7225 
+Diff_Gain = abs(Gain_1K-40)
+
+% Measures the balance between the voltage deviation and the 
+Real_Merit = Diff_Gain*Central_freq
+
+Merit = 1/(Total_Cost*((Diff_Gain*Diff_central_freq)+e-6)) 
+
+Merit_Without_Ampop = 1/((Total_Cost-C_Ampop)*((Diff_Gain*Diff_central_freq)+e-6)) 
+
+
+
+Data  = [R1, R2, R3, R4, Total_Cost, Central_freq, Diff_central_freq, Gain_1K, Diff_Gain, Merit]
+dlmwrite ("Results.txt", Data,"    |    ", "-append")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#-------------------------- Writting in file to include in ngspice simulation-----------------------------------
 
 fid = fopen ('../sim/ngspice_data.txt', "w+");
 
-
-fprintf(fid, ".param RE1 = %.11f\n", RE1)
-fprintf(fid, ".param RC1 = %.11f\n", RC1)
-fprintf(fid, ".param RB1 = %.11f\n", RB1)
-fprintf(fid, ".param RB2 = %.11f\n", RB2)
-fprintf(fid, ".param VCC = %.11f\n", VCC)
-fprintf(fid, ".param RS = %.11f\n", RS)
-
+fprintf(fid, ".param R1 = %.11f\n", R1)
+fprintf(fid, ".param R2 = %.11f\n", R2)
+fprintf(fid, ".param R3 = %.11f\n", R3)
+fprintf(fid, ".param R4 = %.11f\n", R4)
+fprintf(fid, ".param C3 = %.11f\n", C3)
+fprintf(fid, ".param C4 = %.11f\n", C4)
 
 fclose (fid);

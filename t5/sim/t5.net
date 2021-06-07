@@ -1,4 +1,5 @@
-	*-----------------------------------------------------------------------------
+Título
+*-----------------------------------------------------------------------------
 *
 * To use a subcircuit, the name must begin with 'X'.  For example:
 * X1 1 2 3 4 5 uA741
@@ -49,52 +50,73 @@
 
 .options savecurrents
 
+*variables 
+.INCLUDE ngspice_data.txt
+
 *Positive feed for ampop
 Vcc vcc 0 5.0
 *Negative feed for ampop
 Vee vee 0 -5.0
 
 *Input voltage
-Vin in 0 0 ac 1.0 sin(0 10m 1k)
+*Para a AC analysis a amplitude é 1, ou seja, o ganho é vout2
+*Para trans analysis a amplitude é 10m, com uma freq de 1kHz
+*For some reason o ampop satura para a trans analysis quando a amp. = 1, mas 
+*não para a ac analysis (Why?)
+Vin in 0 0 ac 1.0 sin(0 1 1k)
 
 *Ampop
 X1 in_p inv_in vcc vee out uA741
 
 *1k resistor
-R4 inv_in 0 1K
+R4 inv_in 0 R4
 
 *100k resistor
-R3 inv_in out 100k
+R3 inv_in out R3
 
 *2 10k in parallel Resistor
-R1 in_p 0 5K
+R1 in_p 0 R1
 
-*1k Resistor 
-R2 out out2 500
+*2 1k Resistors in parallel  
+R2 out out2 R2
 
 
 *High freq. cut off capacitor 3 220nF capacitors in series
-C3 out2 0 73.3n
+C3 out2 0 C3
 
 
 *Low freq. cut-off capacitor
-C4 in_p in 0.3u
+C4 in_p in C4
 
 * load
 *RL out2 0 80k
 
+
 .op
+
+
+
+*Finding the maximum value for the voltage output, in the trans analysis
+* .tran 1e-5 1e-2
+
+* .measure TRAN ymax MAX v(out2) from=0m to=1e-2
+
+
+*Finding the maximum value for the voltage output, in the AC analysis
+.ac dec 10 10 100MEG
+
+*Finds the High cut-off frequency f_H
+.measure AC fh WHEN  v(out2) = 69.5170 from=10 to=100MEG CROSS = LAST
+
+*Finds the Low cut-off frequency f_W
+
+.measure AC fl WHEN  v(out2) = 69.5170 from=10 to=100MEG 
+.measure AC gain FIND v(out2) AT=1000
+.measure AC gainDB FIND vdb(out2) AT=1000
 .end
 
 
-
 .control
-
-op
-
-echo  "op_TAB"
-print all
-echo  "op_END"
 
 makes plots in color
 set hcopypscolor=0
@@ -106,34 +128,33 @@ set color4=violet
 set color5=rgb:3/8/0
 set color6=rgb:4/0/0
 
-* time analysis
+* time analysis (Freq = 1kHz )
 tran 1e-5 1e-2
 
-.meas ac tymax MAX_AT v(out2) from=10 to=100MEG 
-print tymax
-
 plot v(in) v(out2)
-hardcopy vo1.ps v(in) v(out2)
-echo vo1_FIG
+hardcopy vo0.ps v(in) v(out2)
+echo vo0_FIG
+*hardcopy vo1.ps vdb(out2)
 
 * frequency analysis
 ac dec 10 10 100MEG
 
+
 *Prints the gain in decibels(In = 1 -> out2 is the gain)
 plot vdb(out2)
-hardcopy vo2.ps vdb(out2)
-echo vo2_FIG
+hardcopy vo1.ps vdb(out2)
+echo vo1_FIG
 
+plot v(in) v(out2)
+hardcopy vo2.ps v(in) v(out2)
+echo vo2_FIG
 *Prints the phase of out2
 plot vp(out2)
-hardcopy vo3.ps vp(out2)
+hardcopy vo3.ps vdb(out2)
 echo vo3_FIG
-
-*input impedance in kohm
+*input impedance in kilo ohm
 *print v(in)[40]/R1[i]/1000
-
-
-
+print 1/13438*(fh+fl)/2
 *need a different setup to measure output impedance
 
 .endc 
