@@ -150,6 +150,7 @@ C4 in_p in C4
 
 .control
 
+
 makes plots in color
 set hcopypscolor=0
 set color0=white
@@ -192,5 +193,9 @@ echo vo4_FIG
 *print v(in)[40]/R1[i]/1000
 print 1/(13438*(fh+fl)/2)
 *need a different setup to measure output impedance
+
+echo  "op_TAB"
+print all
+echo  "op_END"
 
 .endc 

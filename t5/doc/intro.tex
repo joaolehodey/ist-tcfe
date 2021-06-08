@@ -25,12 +25,24 @@ In this lab assigment we were also able to implement this circuit in real life, 
 For the circuit configuration, we chose the following components: 
 
 \begin{table}[H]
-\begin{tabular}{|l|l|l|l|l|l|}
+\begin{tabular}{l|l|l|l|l|l|}
 R1 & R2 & R3 & R4  & C3 & C4                         \\ 
 1000K$\Omega$ & 500 $\Omega$ & 1000K$\Omega$ & 500 $\Omega$ & 220nF & 220nF \\ 
 \end{tabular}
 \end{table}
 
 With these components we were able to get a voltage gain of approximately $Gain = 40$ dbs, and cut-off frequencies of $330\, Hz$ and $2.23\,KHz$, corresponding $f_L$ and $f_H$, respectively. 
-Using ngpsice, we simulated the same circuit, were we obtained the following results:
+Using ngpsice, we simulated the same circuit, where we obtained the following results:
 
+\begin{table}[H]
+    \begin{tabular}{l|l}
+    Cost & 13426.472038661\\
+    Central frequency, $f_0$ & 847.6288757705225\\
+    Central frequency deviation ($diff_{F_0}$) & 152.3711242294775\\
+    gain at $1000Hz$, G (db)& 42.42502\\
+    Gain deviation, $Diff_G$ & 2.425020000000004\\
+    Merit & 1.649708859507576e-07\\
+    Low Cut off& 3.95392e+02 \\
+    High Cut off& 1.81712e+03\\ 
+    \end{tabular}
+\end{table}

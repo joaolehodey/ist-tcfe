@@ -119,7 +119,33 @@ dlmwrite ("Results.txt", Data,"    |    ", "-append")
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIRST VALUES TABEL PRINT TO REPORT
 
+filename = "results_octave.tex";
+fid = fopen (filename, "w+");
+
+fprintf(fid, "\\begin{table}[H] \n \\centering \n \\begin{tabular}{ c c } \n")
+fprintf(fid, "\\hline\n")
+fprintf(fid, "Total Cost & %.11f \\\\ \n ", Total_Cost)
+fprintf(fid, "\\hline\n")
+fprintf(fid, "Central Freq & %.11f \\\\ \n ", Central_freq)
+fprintf(fid, "\\hline\n")
+fprintf(fid, "Central Frequency diference & %.11f \\\\ \n ", Diff_central_freq)
+fprintf(fid, "\\hline\n")
+fprintf(fid, "Gain & %.11f \\\\ \n ", Gain_1K)
+fprintf(fid, "\\hline\n")
+fprintf(fid, "Cut off low & %.11f \\\\ \n ", F_L)
+fprintf(fid, "\\hline\n")
+fprintf(fid, "Cut off high & %.11f \\\\ \n ", F_H)
+fprintf(fid, "\\hline\n")
+fprintf(fid, "Gain Diference & %.11f \\\\ \n ", Diff_Gain)
+fprintf(fid, "\\hline\n")
+fprintf(fid, "Merit & %.11f \\\\ \n ", Merit)
+fprintf(fid, "\\hline\n")
+fprintf(fid, "  \\end{tabular} \n \\caption{Values used as parameters for the circuit studied.} \n \\label{tab:ex1} \n \\end{table} \n ")
+
+
+fclose (fid);
 
 
 
