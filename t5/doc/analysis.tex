@@ -1,8 +1,50 @@
 \section{Theoretical Analysis}
 \label{sec:analysis}
 
+\subsection{Input and output impedances.}
+To determine the input and output impedances, we first replace the Op-Amp with its equivalent circuit, as shown in figure (\ref{fig:eq_circuit}). 
+
+\begin{figure}[H] \centering
+\includegraphics[width=0.6\linewidth]{Incremental_circuit.pdf}
+\caption{Pass-band circuit, with the amp-pop replaced with its equivalent circuit.}
+\label{fig:eq_circuit}
+\end{figure}
+
+Considering the amp-op configuration is a non-inverting amplifier(and the ideal amp-op model), we get that the output and input impedances, $Z_O$ and $Z_I$,  are $0$ and $\infty$, respectively, and that the gain $A$ is equal to : $(1+\frac{R_3}{R_4})$. Therefore we get the following circuit, in figure (\ref{fig:eq_circuit2})
+
+\begin{figure}[H] \centering
+\includegraphics[width=0.6\linewidth]{Incremental__circuit2.pdf}
+\caption{Pass-band circuit, with the amp-pop replaced with its equivalent circuit, using the ideal model aproximation.}
+\label{fig:eq_circuit2}
+\end{figure}
 
 
+Finally, we can deduce the expressions for the input and output impedances for the circuit, $Z_I$ and $Z_{0ut}$, (as seen by $V_{in}$ and $V_{out}$, respectively).
+From the circuit in figure (\ref{fig:eq_circuit2}), we get that ( there is no effect on the first part of the circuit, by $V_{out2}$, therefore it is not required to short-circuit the output):
+
+\begin{equation}
+Z_I(\omega) = Z_{C_4} + R_4 = \frac{1}{j\omega C_4 } + R4   
+\end{equation}
+
+As for the output impedance, we need to short-circuit the input, hence we get the circuit in figure (\ref{fig:eq_circuit3}), from the $V_{out_2}$ terminals:
+
+\begin{figure}[H] \centering
+\includegraphics[width=0.6\linewidth]{Circuito_incremental_equivalente.pdf}
+\caption{Equivalent circuit seen by the terminals of $V_{out_2}$, when $V_I = 0$.}
+\label{fig:eq_circuit3}
+
+\end{figure}
+
+
+
+
+
+Therefore we get that:
+\begin{equation}
+ Z_O(\omega) = R_2 || C_3 = \frac{R_2}{j\omega C_3 R_2 + 1}  
+\end{equation}
+´
+\subsection{Transfer function}
 The transfer function is defined as the ration between the output and the input. In our case, the output is $v0$ and the input $vs$:
 \begin{equation*}
     T(s)=\frac{v0}{vs}
@@ -16,7 +58,7 @@ where, as usual
     s = j\omega
 \end{equation*}
 
-
+\subsection{Cut-off frequencies}
 The theoretical cut-off frequencies, $f_L$ and $f_H$, can be calculated by the Short Circuit Time Constants Method. They are given by\footnote{If you want to see the deduction in detail, you may visit the following link: \url{https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-012-microelectronic-devices-and-circuits-fall-2009/lecture-notes/MIT6_012F09_lec23.pdf?fbclid=IwAR3ezEOiIWVJ0LyNLNp49EwgcpWSC-_IQFO6wASvf9cKXiGx2_0zBplPnb8}}:
 \begin{equation}
     f_L = \frac{1}{R_1C_1}
