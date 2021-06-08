@@ -194,7 +194,9 @@ print all
 *input impedance in kilo ohm
 *R1[i] -> current i that passes through the resistor R1 -> doesn t work
 *vin#branch-> current that passes through the branch
-print v(in)[40]/vin#branch[40]/(-1000)
+let zi = v(in)[40]/vin#branch[40]/(-1000)
 
-
+echo z_TAB
+print zi
+echo z_END
 .endc 
