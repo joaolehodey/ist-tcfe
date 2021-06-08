@@ -1,4 +1,4 @@
-Título
+Band_pass_Amp
 *-----------------------------------------------------------------------------
 *
 * To use a subcircuit, the name must begin with 'X'.  For example:
@@ -68,6 +68,40 @@ Vin in 0 0 ac 1.0 sin(0 1 1k)
 *Ampop
 X1 in_p inv_in vcc vee out uA741
 
+
+
+*This next section is split into two parts: 
+*The first is the circuit implemented in the lab(corresponding to lab = 1)
+*The second is the circuit implemented at home
+
+.param lab=0
+
+.if (lab)
+
+
+*This is the lab config.
+*2 1k resistors in parallel
+R4 inv_in 0 0.5k
+
+*100k resistor
+R3 inv_in out 100k
+
+*1k Resistor
+R1 in_p 0 1K
+
+*2 1k Resistors in parallel  
+R2 out out2 0.5k
+
+
+*High freq. cut off capacitor 220nF capacitor
+C3 out2 0 220n
+
+
+*Low freq. cut-off capacitor
+C4 in_p in 220n
+
+.else
+
 *1k resistor
 R4 inv_in 0 R4
 
@@ -80,20 +114,16 @@ R1 in_p 0 R1
 *2 1k Resistors in parallel  
 R2 out out2 R2
 
-
 *High freq. cut off capacitor 3 220nF capacitors in series
 C3 out2 0 C3
-
 
 *Low freq. cut-off capacitor
 C4 in_p in C4
 
-* load
-*RL out2 0 80k
+.endif
 
 
 .op
-
 
 
 *Finding the maximum value for the voltage output, in the trans analysis
@@ -106,11 +136,13 @@ C4 in_p in C4
 .ac dec 10 10 100MEG
 
 *Finds the High cut-off frequency f_H
-.measure AC fh WHEN  v(out2) = 69.5170 from=10 to=100MEG CROSS = LAST
+.measure AC fh WHEN  v(out2) = 69.5170  CROSS = LAST
 
-*Finds the Low cut-off frequency f_W
+*Finds the Low cut-off frequency f_l
+.measure AC f_L WHEN  v(out2) = 69.5170  RISE = 1 
 
-.measure AC fl WHEN  v(out2) = 69.5170 from=10 to=100MEG 
+
+*Finds the gain at 1000Hz, in mag and in deci., respectively
 .measure AC gain FIND v(out2) AT=1000
 .measure AC gainDB FIND vdb(out2) AT=1000
 .end
