@@ -45,10 +45,10 @@ C4 = str2double(vector(6))      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Cost of the circuit
 
-C_R1 = R1*1/1000
+C_R1 = 3e4
 C_R2 = 2e3
 C_R3 = 100e3
-C_R4 = 1e3
+C_R4 = 2e3
 
 C_C3 = 3*220e-9
 C_C4 = 3e-6
@@ -89,10 +89,10 @@ F_Gmax = 9.698412e+01
 G_H_L = 9.698412e+01/sqrt(2) 
 
 % High cut-off frequency
-F_H =  2.32965e+03
+F_H =  2.28832e+03
 
 % Lower cut-off frequency
-F_L =   2.18112e+02
+F_L =   2.22941e+02
 
 % Central frequency(geometric average)
 Central_freq = sqrt(F_H*F_L)
@@ -101,7 +101,7 @@ Diff_central_freq = abs(Central_freq-1000)
 
 
 % Voltage gain deviation
-Gain_1K = 39.7225 
+Gain_1K = 3.972291e+01
 Diff_Gain = abs(Gain_1K-40)
 
 % Measures the balance between the voltage deviation and the 
@@ -154,6 +154,8 @@ ylabel("arg(T)[rad]")
 print (hf1, "secondoctave.eps", "-depsc");
 
 % Gain_1K_theoric= t(j*1000*2*pi)
+ZO = R2/(s*C3*R2 + 1)
+ZI = 1/(s*C4) + R4
 
 
 
@@ -172,13 +174,17 @@ fprintf(fid, "Central Frequency diference & %.11f \\\\ \n ", Diff_central_freq)
 fprintf(fid, "\\hline\n")
 fprintf(fid, "Gain & %.11f \\\\ \n ", Gain_1K)
 fprintf(fid, "\\hline\n")
-% fprintf(fid, "Gain Theoric & %.11f \\\\ \n ", Gain_1K_theoric)
-% fprintf(fid, "\\hline\n")
+fprintf(fid, "Gain Theoric & %.11f \\\\ \n ", t)
+fprintf(fid, "\\hline\n")
 fprintf(fid, "Cut off low & %.11f \\\\ \n ", F_L)
 fprintf(fid, "\\hline\n")
 fprintf(fid, "Cut off high & %.11f \\\\ \n ", F_H)
 fprintf(fid, "\\hline\n")
 fprintf(fid, "Gain Diference & %.11f \\\\ \n ", Diff_Gain)
+fprintf(fid, "\\hline\n")
+fprintf(fid, "ZO & %.11f \\\\ \n ", ZO)
+fprintf(fid, "\\hline\n")
+fprintf(fid, "ZI & %.11f \\\\ \n ", ZI)
 fprintf(fid, "\\hline\n")
 fprintf(fid, "Merit & %.11f \\\\ \n ", Merit)
 fprintf(fid, "\\hline\n")
