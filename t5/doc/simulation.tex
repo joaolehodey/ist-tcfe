@@ -9,15 +9,15 @@ The graphs are the following:
 
 \begin{figure}[H] \centering
 \includegraphics[width=0.6\linewidth]{vo1.pdf}
-\caption{Time analysis}
-\label{fig:acm}
+\caption{Experimental gain, as a function of frequency.}
+\label{fig:acm1}
 \end{figure}
 
 
 \begin{figure}[H] \centering
 \includegraphics[width=0.6\linewidth]{vo2.pdf}
-\caption{Frequency analysis}
-\label{fig:acm}
+\caption{Voltage amplitudes, as a function of frequency.}
+\label{fig:acm2}
 \end{figure}
 
 
@@ -32,3 +32,21 @@ The graphs are the following:
 \caption{v(out)/v(in)}
 \label{fig:acm}
 \end{figure}
+
+\subsection{Input and output impedances}
+The impedances measured are the following:
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|l|r|}
+    \hline    
+    {\bf Name} & {\bf Value } \\ \hline
+    \input{../sim/z_tab}
+  \end{tabular}
+  \caption{Impedances}
+  \label{tab:op}
+\end{table}
+
+\subsection{Gain}
+As we can see by the figures (\ref{fig:forced1} and \ref{fig:acm1}), the theoretical gain and experimental gain match quite well.
+
