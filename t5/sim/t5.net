@@ -189,9 +189,12 @@ echo vo3_FIG
 plot v(out2)/v(in)
 hardcopy vo4.ps v(out2)/v(in)
 echo vo4_FIG
+print all
+
 *input impedance in kilo ohm
-print v(in)[40]/R1[i]/1000
-*need a different setup to measure output impedance
+*R1[i] -> current i that passes through the resistor R1 -> doesn t work
+*vin#branch-> current that passes through the branch
+print v(in)[40]/vin#branch[40]/(-1000)
 
 
 .endc 
