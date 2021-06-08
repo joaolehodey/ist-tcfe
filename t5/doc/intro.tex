@@ -1,11 +1,36 @@
 \section{Introduction}
 \label{sec:introduction}
 
+In this laboratory assignment we seek to build a bandpass filter using an OP-AMP. Particularly we seek to maximize our \textbf{merit figure}, $M$, given by:
+\begin{equation*}
+    M = \frac{1}{Cost(VoltageGainDeviation+CentralFreqDeviation+10^{-6})}
+\end{equation*}
+where the voltage gain deviation is the absolute value of the difference between the gain at 1000 Hz and 40 dB; and the central frequency deviation is the absolute value of the difference between the central frequency and 1000 Hz. The central frequency, $f_c$ , is given by the geometric mean of the low cut-off frequency and the high cut-off frequency:
+\begin{equation*}
+    f_c = \sqrt{f_H f_L} 
+\end{equation*}
 
 The circuit used was the following:
 
+
 \begin{figure}[H] \centering
-\includegraphics[width=0.6\linewidth]{circuit.pdf}
+\includegraphics[width=0.9\linewidth]{circuit.pdf}
 \caption{Circuito utilizado}
 \label{fig:circuit}
 \end{figure}
+
+\section{Presential Lab}
+
+In this lab assigment we were also able to implement this circuit in real life, where we able to measured the gain and the cut-off frequencies.
+For the circuit configuration, we chose the following components: 
+
+\begin{table}[H]
+\begin{tabular}{|l|l|l|l|l|l|}
+R1 & R2 & R3 & R4  & C3 & C4                         \\ 
+1000K$\Omega$ & 500 $\Omega$ & 1000K$\Omega$ & 500 $\Omega$ & 220nF & 220nF \\ 
+\end{tabular}
+\end{table}
+
+With these components we were able to get a voltage gain of approximately $Gain = 40$ dbs, and cut-off frequencies of $330\, Hz$ and $2.23\,KHz$, corresponding $f_L$ and $f_H$, respectively. 
+Using ngpsice, we simulated the same circuit, were we obtained the following results:
+

@@ -1,2 +1,32 @@
 \section{Theoretical Analysis}
 \label{sec:analysis}
+
+
+
+The transfer function is defined as the ration between the output and the input. In our case, the output is $v0$ and the input $vs$:
+\begin{equation*}
+    T(s)=\frac{v0}{vs}
+\end{equation*}
+after a little algebra, we get to the following expression:
+\begin{equation}
+    T(s)=\frac{R_{1}C_{1}s}{1+R_{1}C_{1}s} (1 + \frac{R_{3}}{R_4}) (\frac{1}{1+ R_{2} C_{2}s}) 
+\end{equation}
+where, as usual
+\begin{equation*}
+    s = j\omega
+\end{equation*}
+
+
+The theoretical cut-off frequencies, $f_L$ and $f_H$, can be calculated by the Short Circuit Time Constants Method. They are given by\footnote{If you want to see the deduction in detail, you may visit the following link: \url{https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-012-microelectronic-devices-and-circuits-fall-2009/lecture-notes/MIT6_012F09_lec23.pdf?fbclid=IwAR3ezEOiIWVJ0LyNLNp49EwgcpWSC-_IQFO6wASvf9cKXiGx2_0zBplPnb8}}:
+\begin{equation}
+    f_L = \frac{1}{R_1C_1}
+\end{equation}
+\begin{equation}
+    f_H = \frac{1}{R_2C_2}
+\end{equation}
+where $f_H$ is the hight cut-off frequency and $f_L$ is the low cut-off frequency.
+Experimentally, the cut off frequencies will be calculated through the following expression:
+\begin{equation*}
+    f = \frac{V_{max}}{\sqrt{2}}
+\end{equation*}
+where $f$ can be either $f_H$ or $f_L$.

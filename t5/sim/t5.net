@@ -134,7 +134,7 @@ tran 1e-5 1e-2
 plot v(in) v(out2)
 hardcopy vo0.ps v(in) v(out2)
 echo vo0_FIG
-*hardcopy vo1.ps vdb(out2)
+
 
 * frequency analysis
 ac dec 10 10 100MEG
@@ -150,11 +150,15 @@ hardcopy vo2.ps v(in) v(out2)
 echo vo2_FIG
 *Prints the phase of out2
 plot vp(out2)
-hardcopy vo3.ps vdb(out2)
+hardcopy vo3.ps vp(out2)
 echo vo3_FIG
+
+plot v(out2)/v(in)
+hardcopy vo4.ps v(out2)/v(in)
+echo vo4_FIG
 *input impedance in kilo ohm
 *print v(in)[40]/R1[i]/1000
-print 1/13438*(fh+fl)/2
+print 1/(13438*(fh+fl)/2)
 *need a different setup to measure output impedance
 
 .endc 
