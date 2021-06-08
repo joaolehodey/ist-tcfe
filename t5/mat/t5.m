@@ -117,6 +117,44 @@ Data  = [R1, R2, R3, R4, Total_Cost, Central_freq, Diff_central_freq, Gain_1K, D
 dlmwrite ("Results.txt", Data,"    |    ", "-append")
 
 
+pkg load control
+
+f=logspace(1,7,10000);
+n=columns(f);
+
+for i=1:n
+  R1 = 3.333e3;
+  R2 = 0.5e3;
+  R3 = 100e3;
+  R4 = 1e3;
+  C3 = 0.0733e-6;
+  C4 = 0.3e-6;
+  w(i)=2*pi*f(i);
+  s(i)=j*w(i);  
+  T(i) = abs( R1/(R1 + 1/(s(i)*C4)) *(1 + R3/R4) / (1 + R2*C3*s(i)));
+  phase_T(i) = arg((R1*C3*s(i))*(1+R3/R4)*(1/(1+R2*C4*s(i)))*(1/(R1*C3*s(i))));
+endfor
+
+w = 2*pi*1000;
+s = j*w;
+t = abs((R1*C4*s)*(1+R3/R4)*(1/(1+R2*C3*s))*(1/(R1*C4*s)))
+
+hf = figure();
+semilogx(f, 20*log10(T));
+grid on;
+xlabel("f[Hz]");
+ylabel("T(f)");
+print (hf, "firstoctave.eps", "-depsc");
+
+hf1 = figure();
+semilogx(f, phase_T);
+grid on;
+xlabel("f[Hz]");
+ylabel("arg(T)[rad]")
+print (hf1, "secondoctave.eps", "-depsc");
+
+% Gain_1K_theoric= t(j*1000*2*pi)
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIRST VALUES TABEL PRINT TO REPORT
@@ -134,6 +172,8 @@ fprintf(fid, "Central Frequency diference & %.11f \\\\ \n ", Diff_central_freq)
 fprintf(fid, "\\hline\n")
 fprintf(fid, "Gain & %.11f \\\\ \n ", Gain_1K)
 fprintf(fid, "\\hline\n")
+% fprintf(fid, "Gain Theoric & %.11f \\\\ \n ", Gain_1K_theoric)
+% fprintf(fid, "\\hline\n")
 fprintf(fid, "Cut off low & %.11f \\\\ \n ", F_L)
 fprintf(fid, "\\hline\n")
 fprintf(fid, "Cut off high & %.11f \\\\ \n ", F_H)

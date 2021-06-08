@@ -190,12 +190,8 @@ plot v(out2)/v(in)
 hardcopy vo4.ps v(out2)/v(in)
 echo vo4_FIG
 *input impedance in kilo ohm
-*print v(in)[40]/R1[i]/1000
-print 1/(13438*(fh+fl)/2)
+print v(in)[40]/R1[i]/1000
 *need a different setup to measure output impedance
 
-echo  "op_TAB"
-print all
-echo  "op_END"
 
 .endc 
